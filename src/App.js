@@ -1,25 +1,77 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
 
-function App() {
+export default function App() {
+  return <Counter />;
+}
+
+function Counter() {
+  const [step, setStep] = useState(1);
+  const [count, setCount] = useState(0);
+
+  function handleStepIncrease() {
+    setStep((s) => s + 1);
+  }
+
+  function handleStepDecrease() {
+    step > 1 && setStep((s) => s - 1);
+  }
+
+  function handleCountIncrease() {
+    setCount((c) => c + step);
+  }
+
+  function handleCountDecrease() {
+    setCount((c) => c - step);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <p>Date counter</p>
+
+      <div>
+        <div>
+          <button onClick={handleStepDecrease}>-</button>
+          <span>Step: {step}</span>
+          <button onClick={handleStepIncrease}>+</button>
+        </div>
+
+        <div>
+          <button onClick={handleCountDecrease}>-</button>
+          <span>Count: {count}</span>
+          <button onClick={handleCountIncrease}>+</button>
+        </div>
+
+        <Message count={count} />
+      </div>
     </div>
   );
 }
 
-export default App;
+function Message({ count }) {
+  function setDate(days) {
+    const today = new Date();
+    today.setDate(today.getDate() + days);
+
+    const formattedDate = today.toLocaleDateString("en-GB", {
+      weekday: "short",
+      year: "numeric",
+      day: "numeric",
+      month: "short",
+    });
+
+    return formattedDate;
+  }
+
+  return count > 0 ? (
+    <p>
+      {count} days from today is {setDate(count)}
+    </p>
+  ) : count < 0 ? (
+    <p>
+      {Math.abs(count)} days ago was {setDate(count)}
+    </p>
+  ) : (
+    <p>Today is {setDate(count)}</p>
+  );
+}
