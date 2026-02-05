@@ -1,3 +1,12 @@
 .App {
   text-align: center;
 }
+
+.hidden {
+  display: none;
+}
+
+.reset {
+  display: block;
+  margin-inline: auto;
+}

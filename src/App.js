@@ -43,6 +43,8 @@ function Counter() {
         </div>
 
         <Message count={count} />
+
+        <Reset count={count} setCount={setCount} />
       </div>
     </div>
   );
@@ -73,5 +75,15 @@ function Message({ count }) {
     </p>
   ) : (
     <p>Today is {setDate(count)}</p>
+  );
+}
+
+function Reset({ count, setCount }) {
+  function handleReset() {}
+
+  return (
+    <button className={count ? "reset" : "hidden"} onClick={handleReset}>
+      Reset
+    </button>
   );
 }
