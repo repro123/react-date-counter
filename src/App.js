@@ -9,14 +9,6 @@ function Counter() {
   const [step, setStep] = useState(1);
   const [count, setCount] = useState(0);
 
-  function handleStepIncrease() {
-    setStep((s) => s + 1);
-  }
-
-  function handleStepDecrease() {
-    step > 1 && setStep((s) => s - 1);
-  }
-
   function handleCountIncrease() {
     setCount((c) => c + step);
   }
@@ -31,20 +23,32 @@ function Counter() {
 
       <div>
         <div>
-          <button onClick={handleStepDecrease}>-</button>
-          <span>Step: {step}</span>
-          <button onClick={handleStepIncrease}>+</button>
+          <input
+            type="range"
+            min="1"
+            max="100"
+            value={step}
+            onChange={(e) => setStep(Number(e.target.value))}
+          />
+          <output>{step}</output>
         </div>
 
-        <div>
+        <div style={{ display: "flex", justifyContent: "center" }}>
           <button onClick={handleCountDecrease}>-</button>
-          <span>Count: {count}</span>
+
+          <input
+            type="number"
+            name="number"
+            value={count}
+            onChange={(e) => setCount(Number(e.target.value))}
+          />
+
           <button onClick={handleCountIncrease}>+</button>
         </div>
 
         <Message count={count} />
 
-        <Reset count={count} setCount={setCount} />
+        {(count || step > 1) && <Reset setCount={setCount} setStep={setStep} />}
       </div>
     </div>
   );
@@ -78,12 +82,11 @@ function Message({ count }) {
   );
 }
 
-function Reset({ count, setCount }) {
-  function handleReset() {}
+function Reset({ setCount, setStep }) {
+  function handleReset() {
+    setCount(0);
+    setStep(1);
+  }
 
-  return (
-    <button className={count ? "reset" : "hidden"} onClick={handleReset}>
-      Reset
-    </button>
-  );
+  return <button onClick={handleReset}>Reset</button>;
 }
